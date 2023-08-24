@@ -1,0 +1,4 @@
+imageio==2.31.0
+matplotlib==3.7.1
+numpy==1.23.5
+sympy==1.12

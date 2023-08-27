@@ -40,5 +40,5 @@ def plot_changes(f, x, old_x, new_x, title, show=False):
 
     # Save the plot
     plt.savefig('./graphs/' + title + '.png')
-    if (show):
+    if (show): #Never be run
         plt.show()

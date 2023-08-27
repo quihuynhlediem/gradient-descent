@@ -9,7 +9,7 @@ def plot_function(f, x):
   # Chấm toạ độ của x và y
   plt.show()
 
-def plot_changes(f, x, old_x, new_x, title='', show=False):
+def plot_changes(f, x, old_x, new_x, title, show=False):
   # if old_x outside of x range, plot a point at the edge
   if old_x < x[0]:
     old_[x] = x[0]

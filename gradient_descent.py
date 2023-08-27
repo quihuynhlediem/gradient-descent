@@ -47,4 +47,4 @@ def gradient_descent_process(starting_point, learning_rate, precision, max_itera
 
   create_gifs()
 
-gradient_descent_process(starting_point=3, learning_rate=0.2, precision=0.000001, max_iterations=100)
+gradient_descent_process(3, 0.2, 0.000001, 100)

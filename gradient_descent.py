@@ -40,7 +40,7 @@ def gradient_descent_process(starting_point, learning_rate, precision, max_itera
         # Check if we've exceeded the maximum number of iterations
         if i > max_iterations:
             print("Maximum iterations exceeded!")
-            brek
+            break
         # Set the old x to the new x
         x_old = x_new
         # Increment the iteration counter

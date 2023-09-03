@@ -11,7 +11,8 @@ def plot_function_contour(f, x, y):
     Z = f.value(X, Y)
     plt.contourf(X, Y, Z, 100, cmap='RdGy')
     plt.colorbar()
-    #plt.show()
+    # plt.show()
+
 
 def plot_changes(f, x, old_x, new_x, y, old_y, new_y, title='', show=False):
     # if old_x outside of x range, plot a point at the edge

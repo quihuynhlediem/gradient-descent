@@ -1,41 +1,29 @@
-from sympy import *
+from sympy import Number
 import numpy as np
+import csv
+with open("data.csv", 'r') as custfile:
+    rows = csv.reader(custfile, delimiter=',')
+    data = []
+    for r in rows:
+        data.append(r)
 
 
-class Function:
-    def __init__(self):
-        self.x = Symbol('x')
-        self.function = self.x ** 2 + sin(5 * self.x) + 1
-        self.derivative = self.function.diff(self.x)
+class LinearRegression:
+    def __init__(self, v, b):
+        self.v = v
+        self.b = b
+        j = 1
+        self.function = 0
+        while (j < len(data)):
+            x = Number(data[j][0])
+            y = Number(data[j][1])
+            self.function = self.function + (y - self.v * x - self.b) ** 2
+            self.derivative_v = 2 * self.v * x ** 2 - 2 * x * y + 2 * self.b * x
+            self.derivative_b = 2 * self.b - 2 * y + 2 * self.v * x
+            j += 1
 
-    # Calculate f(point)
-    def value(self, point):
-        f = lambdify(self.x, self.function, 'numpy')
-        return f(point)
+    def value(self):
+        return self.function
 
-    # Calculate f'(point)
-    def deriv(self, point):
-        f = lambdify(self.x, self.derivative, 'numpy')
-        return f(point)
-
-
-class TwoVariables:
-    def __init__(self):
-        self.x = Symbol('x')
-        self.y = Symbol('y')
-        self.function = self.x ** 2 * self.y + sin(self.y) + 1
-        # self.function = self.x ** 2 * self.y ** 2 + 1
-        self.derivative_x = self.function.diff(self.x)
-        self.derivative_y = self.function.diff(self.y)
-        # The line below is a diff() method. Syntax: expr.diff(variable)
-        # We also have diff function. Syntax diff(expr, variable)
-
-    def value(self, x, y):
-        f = lambdify([self.x, self.y], self.function, 'numpy')
-        # Why 'numpy'?
-        return f(x, y)
-
-    def deriv(self, x, y):
-        f_x = lambdify([self.x, self.y], self.derivative_x, 'numpy')
-        f_y = lambdify([self.x, self.y], self.derivative_y, 'numpy')
-        return np.array([f_x(x, y), f_y(x, y)])
+    def gradient(self):
+        return np.array([self.derivative_v, self.derivative_b])

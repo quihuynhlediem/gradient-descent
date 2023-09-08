@@ -7,7 +7,7 @@ import math
 
 
 def gradient_descent_process(starting_point_v, starting_point_b, learning_rate, precision, max_iterations):
-    #clear_graph_folder()
+    clear_graph_folder()
 
     v_old = starting_point_v
     b_old = starting_point_b
@@ -16,12 +16,12 @@ def gradient_descent_process(starting_point_v, starting_point_b, learning_rate, 
 
     f = LinearRegression()
 
-    v = np.linspace(-100, 100, 1000)
-    b = np.linspace(-100, 100, 1000)
+    v = np.linspace(0, 50, 100)
+    b = np.linspace(0, 50, 100)
 
-    #plot_function_contour(f, v, b)
+    plot_function_contour(f, v, b)
 
-    while True:
+    while (f.value(v_old, b_old) > 0):
         if (v_old < v[0]):  # limit the value of gradient
             break
         elif (v_old > v[-1]):
@@ -47,10 +47,9 @@ def gradient_descent_process(starting_point_v, starting_point_b, learning_rate, 
         print("v_new:", v_new)
         print("b_new:", b_new)
         print("z: ", f.value(v_new, b_new))
-        z_value = f.value(v_new, b_new)
         print('---------------')
 
-        #plot_changes(f, v, v_old, v_new, b, b_old, b_new, '' + str(i))
+        plot_changes(f, v, v_old, v_new, b, b_old, b_new, '' + str(i))
         if math.sqrt((v_new - v_old)**2 + (b_new - b_old)**2) < precision:
             print("Precision reached!")
             break
@@ -61,22 +60,25 @@ def gradient_descent_process(starting_point_v, starting_point_b, learning_rate, 
         v_old = v_new
         b_old = b_new
         i += 1
-    return(z_value)
-    #create_gifs()
+    # return(z_value)
+    create_gifs()
 
 
-def fluctuate_number(min):
-    i = 0
-    for a in range(3):
-        for b in range(3):
-            z_value = gradient_descent_process(a, b, 0.001, 0.00001, 200)
-            if (z_value < min):
-                min = z_value
-            i += 1
-    return([min, i])
+gradient_descent_process(1, 1, 0.0075, 0.00001, 200)
 
 
-min = 100000000
+# def fluctuate_number(min):
+#     i = 0
+#     for a in range(3):
+#         for b in range(3):
+#             z_value = gradient_descent_process(a, b, 0.001, 0.00001, 200)
+#             if (z_value < min):
+#                 min = z_value
+#             i += 1
+#     return([min, i])
 
 
-print(fluctuate_number(min))
+# min = 100000000
+
+
+# print(fluctuate_number(min))

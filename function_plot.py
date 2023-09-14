@@ -5,7 +5,7 @@ from math_function import SigmoidFunction
 
 def plot_function(f, x):
     y = f.value(x)
-    plt.plot(x, y)
+    plt.plot(x, y, color = "blue")
     plt.show()
 
 

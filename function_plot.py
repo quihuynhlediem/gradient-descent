@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from math_function import SigmoidFunction
 
 
 def plot_function(f, x):

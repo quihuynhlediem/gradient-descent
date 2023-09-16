@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from math_function import SigmoidFunction, probability
+from math_function import LossFunction
 from function_plot import plot_function, plot_changes
 from utils import clear_graph_folder, create_gifs
+import os
 
 
 def gradient_descent_process(starting_point, learning_rate, precision, max_iterations):
@@ -12,7 +13,7 @@ def gradient_descent_process(starting_point, learning_rate, precision, max_itera
 
     i = 0
 
-    f = SigmoidFunction()
+    f = LossFunction()
 
     a = np.linspace(-5, 5, 100)
 
@@ -52,5 +53,9 @@ def gradient_descent_process(starting_point, learning_rate, precision, max_itera
 
     create_gifs()
 
+def check_graphs_folder():
+    if (not os.path.exists('./graphs')):
+        os.mkdir('./graphs')
 
-print(probability(1, gradient_descent_process(1, 0.05, 0.00001, 200)))
+check_graphs_folder()
+gradient_descent_process(1, 0.05, 0.00001, 200)

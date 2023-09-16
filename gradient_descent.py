@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from math_function import SigmoidFunction
+from math_function import SigmoidFunction, probability
 from function_plot import plot_function, plot_changes
 from utils import clear_graph_folder, create_gifs
 
@@ -40,9 +40,11 @@ def gradient_descent_process(starting_point, learning_rate, precision, max_itera
         plot_changes(f, a, a_old, a_new, '' + str(i))
         if (a_new - a_old) < precision:
             print("Precision reached!")
+            return a_new
             break
         if i > max_iterations:
             print("Maximum iterations exceeded!")
+            return a_new
             break
 
         a_old = a_new
@@ -51,4 +53,4 @@ def gradient_descent_process(starting_point, learning_rate, precision, max_itera
     create_gifs()
 
 
-gradient_descent_process(1, 0.05, 0.00001, 200)
+print(probability(1, gradient_descent_process(1, 0.05, 0.00001, 200)))

@@ -28,3 +28,7 @@ class SigmoidFunction:
     def gradient(self, a):
         f = lambdify(self.a, self.derivative, 'numpy')
         return f(a)
+
+
+def probability(x, a):
+    return 1 / (1 + math.e ** (a-x))

@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from math_function import TwoVariables
 
 # Plot the function
 

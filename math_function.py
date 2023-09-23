@@ -1,41 +1,46 @@
-from sympy import *
 import numpy as np
+total_study_time = np.array([0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 1.75, 2.00, 2.25, 2.50,
+                             2.75, 3.00, 3.25, 3.50, 4.00, 4.25, 4.50, 4.75, 5.00, 5.50])
+exam_result = np.array([0, 0, 0, 0, 0, 0, 1, 0, 1, 0,
+                       1, 0, 1, 0, 1, 1, 1, 1, 1, 1])
 
 
-class Function:
+class LossFunction():
     def __init__(self):
-        self.x = Symbol('x')
-        self.function = self.x ** 2 + sin(5 * self.x) + 1
-        self.derivative = self.function.diff(self.x)
+        self.threshold = 1
+        self.additional_variable = 1
 
-    # Calculate f(point)
-    def value(self, point):
-        f = lambdify(self.x, self.function, 'numpy')
-        return f(point)
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
 
-    # Calculate f'(point)
-    def deriv(self, point):
-        f = lambdify(self.x, self.derivative, 'numpy')
-        return f(point)
+    def predict(self, study_time):
+        return self.sigmoid(self.additional_variable * study_time - self.threshold)
 
+    def value(self, threshold, additional_variable):
+        self.additional_variable = additional_variable
+        self.threshold = threshold
+        self.function = 0
+        for i in range(len(total_study_time)):
+            result = exam_result[i]
+            study_time = total_study_time[i]
+            self.function += (result - self.predict(study_time)) ** 2
+        return self.function
 
-class TwoVariables:
-    def __init__(self):
-        self.x = Symbol('x')
-        self.y = Symbol('y')
-        self.function = self.x ** 2 * self.y + sin(self.y) + 1
-        # self.function = self.x ** 2 * self.y ** 2 + 1
-        self.derivative_x = self.function.diff(self.x)
-        self.derivative_y = self.function.diff(self.y)
-        # The line below is a diff() method. Syntax: expr.diff(variable)
-        # We also have diff function. Syntax diff(expr, variable)
+    def deriv(self, threshold, additional_variable):
+        self.additional_variable = additional_variable
+        self.threshold = threshold
+        self.derivative_threshold = 0
+        self.derivative_additional_variable = 0
+        for i in range(len(total_study_time)):
+            result = exam_result[i]
+            study_time = total_study_time[i]
+            self.derivative_threshold += 2 * \
+                (result - self.predict(study_time)) * \
+                self.predict(study_time) * \
+                (1 - self.predict(study_time))
 
-    def value(self, x, y):
-        f = lambdify([self.x, self.y], self.function, 'numpy')
-        # Why 'numpy'?
-        return f(x, y)
-
-    def deriv(self, x, y):
-        f_x = lambdify([self.x, self.y], self.derivative_x, 'numpy')
-        f_y = lambdify([self.x, self.y], self.derivative_y, 'numpy')
-        return np.array([f_x(x, y), f_y(x, y)])
+            self.derivative_additional_variable += -2 * \
+                (result - self.predict(study_time)) * \
+                self.predict(study_time) * \
+                (1 - self.predict(study_time)) * study_time
+        return np.array([self.derivative_additional_variable, self.derivative_threshold])

@@ -16,8 +16,8 @@ def gradient_descent_process(starting_point_threshold, starting_point_additional
 
     f = LossFunction()
 
-    threshold = np.linspace(1, 7, 100)
-    additional_variable = np.linspace(0, 4, 100)
+    threshold = np.linspace(-6, 6, 100)
+    additional_variable = np.linspace(-6, 6, 100)
 
     plot_function_contour(f, threshold, additional_variable)
 
@@ -70,4 +70,4 @@ def gradient_descent_process(starting_point_threshold, starting_point_additional
     create_gifs()
 
 
-gradient_descent_process(1, 1, 0.05, 0.0000001, 100)
+gradient_descent_process(1, 1, 0.05, 0.0000001, 150)

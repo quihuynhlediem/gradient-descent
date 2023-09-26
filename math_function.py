@@ -9,10 +9,33 @@ class LogLoss():
     def __init__(self):
         self.threshold = 0
         self.coefficient = 0
-    
-    def value(self, threshold, coefficient):
-        self.threshold = threshold
+
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+
+    def predict(self, study_time):
+        log_odds = self.coefficient * study_time + self.threshold
+        return self.sigmoid(log_odds)
+
+    def value(self, coefficient, threshold):
         self.coefficient = coefficient
+        self.threshold = threshold
+        self.loss_function = 0
         for i in range(len(exam_result)):
             result = exam_result[i]
-            
+            study_time = total_study_time[i]
+            self.loss_function += -(result * np.log(self.predict(study_time)) +
+                                    (1 - result) * np.log(1 - self.predict(study_time)))
+        return self.loss_function
+
+    def gradient(self, coefficient, threshold):
+        self.coefficient = coefficient
+        self.threshold = threshold
+        self.threshold_gradient = 0
+        self.coefficient_gradient = 0
+        for i in range(len(exam_result)):
+            result = exam_result[i]
+            study_time = total_study_time[i]
+            self.threshold_gradient += -(result - self.predict(study_time))
+            self.coefficient_gradient += -(result - self.predict(study_time)) * study_time
+        return np.array([self.coefficient_gradient, self.threshold_gradient])
